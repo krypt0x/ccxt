@@ -45,7 +45,7 @@ const Exchange  = require ('./js/base/Exchange')
 //-----------------------------------------------------------------------------
 // this is updated by vss.js when building
 
-const version = '1.18.489'
+const version = '1.18.514'
 
 Exchange.ccxtVersion = version
 
@@ -1763,8 +1763,8 @@ module.exports = class anybits extends bitsane {
             },
             'fees': {
                 'trading': {
-                    'maker': 0.15 / 100,
-                    'taker': 0.25 / 100,
+                    'maker': 0.1 / 100,
+                    'taker': 0.2 / 100,
                 },
             },
         });
@@ -7032,123 +7032,6 @@ module.exports = class binance extends Exchange {
                     'taker': 0.001,
                     'maker': 0.001,
                 },
-                // should be deleted, these are outdated and inaccurate
-                'funding': {
-                    'tierBased': false,
-                    'percentage': false,
-                    'withdraw': {
-                        'ADA': 1.0,
-                        'ADX': 4.7,
-                        'AION': 1.9,
-                        'AMB': 11.4,
-                        'APPC': 6.5,
-                        'ARK': 0.1,
-                        'ARN': 3.1,
-                        'AST': 10.0,
-                        'BAT': 18.0,
-                        'BCD': 1.0,
-                        'BCH': 0.001,
-                        'BCPT': 10.2,
-                        'BCX': 1.0,
-                        'BNB': 0.7,
-                        'BNT': 1.5,
-                        'BQX': 1.6,
-                        'BRD': 6.4,
-                        'BTC': 0.001,
-                        'BTG': 0.001,
-                        'BTM': 5.0,
-                        'BTS': 1.0,
-                        'CDT': 67.0,
-                        'CMT': 37.0,
-                        'CND': 47.0,
-                        'CTR': 5.4,
-                        'DASH': 0.002,
-                        'DGD': 0.06,
-                        'DLT': 11.7,
-                        'DNT': 51.0,
-                        'EDO': 2.5,
-                        'ELF': 6.5,
-                        'ENG': 2.1,
-                        'ENJ': 42.0,
-                        'EOS': 1.0,
-                        'ETC': 0.01,
-                        'ETF': 1.0,
-                        'ETH': 0.01,
-                        'EVX': 2.5,
-                        'FUEL': 45.0,
-                        'FUN': 85.0,
-                        'GAS': 0,
-                        'GTO': 20.0,
-                        'GVT': 0.53,
-                        'GXS': 0.3,
-                        'HCC': 0.0005,
-                        'HSR': 0.0001,
-                        'ICN': 3.5,
-                        'ICX': 1.3,
-                        'INS': 1.5,
-                        'IOTA': 0.5,
-                        'KMD': 0.002,
-                        'KNC': 2.6,
-                        'LEND': 54.0,
-                        'LINK': 12.8,
-                        'LLT': 54.0,
-                        'LRC': 9.1,
-                        'LSK': 0.1,
-                        'LTC': 0.01,
-                        'LUN': 0.29,
-                        'MANA': 74.0,
-                        'MCO': 0.86,
-                        'MDA': 4.7,
-                        'MOD': 2.0,
-                        'MTH': 34.0,
-                        'MTL': 1.9,
-                        'NAV': 0.2,
-                        'NEBL': 0.01,
-                        'NEO': 0.0,
-                        'NULS': 2.1,
-                        'OAX': 8.3,
-                        'OMG': 0.57,
-                        'OST': 17.0,
-                        'POE': 88.0,
-                        'POWR': 8.6,
-                        'PPT': 0.25,
-                        'QSP': 21.0,
-                        'QTUM': 0.01,
-                        'RCN': 35.0,
-                        'RDN': 2.2,
-                        'REQ': 18.1,
-                        'RLC': 4.1,
-                        'SALT': 1.3,
-                        'SBTC': 1.0,
-                        'SNGLS': 42,
-                        'SNM': 29.0,
-                        'SNT': 32.0,
-                        'STORJ': 5.9,
-                        'STRAT': 0.1,
-                        'SUB': 7.4,
-                        'TNB': 82.0,
-                        'TNT': 47.0,
-                        'TRIG': 6.7,
-                        'TRX': 129.0,
-                        'USDT': 23.0,
-                        'VEN': 1.8,
-                        'VIB': 28.0,
-                        'VIBE': 7.2,
-                        'WABI': 3.5,
-                        'WAVES': 0.002,
-                        'WINGS': 9.3,
-                        'WTC': 0.5,
-                        'XLM': 0.01,
-                        'XMR': 0.04,
-                        'XRP': 0.25,
-                        'XVG': 0.1,
-                        'XZC': 0.02,
-                        'YOYOW': 39.0,
-                        'ZEC': 0.005,
-                        'ZRX': 5.7,
-                    },
-                    'deposit': {},
-                },
             },
             'commonCurrencies': {
                 'BCC': 'BCC', // kept for backward-compatibility https://github.com/ccxt/ccxt/issues/4848
@@ -7879,6 +7762,7 @@ module.exports = class binance extends Exchange {
         // The corresponding trades history is called the `Dust Log` and can be requested via the following end-point:
         // https://github.com/binance-exchange/binance-official-api-docs/blob/master/wapi-api.md#dustlog-user_data
         //
+        await this.loadMarkets ();
         let request = this.extend ({}, params);
         let response = await this.wapiGetUserAssetDribbletLog (request);
         // { success:    true,
@@ -9872,6 +9756,7 @@ module.exports = class bitfinex extends Exchange {
                 'DAD': 'DADI',
                 'DAT': 'DATA',
                 'DSH': 'DASH',
+                'GSD': 'GUSD',
                 'HOT': 'Hydro Protocol',
                 'IOS': 'IOST',
                 'IOT': 'IOTA',
@@ -9887,9 +9772,12 @@ module.exports = class bitfinex extends Exchange {
                 'SNG': 'SNGLS',
                 'SPK': 'SPANK',
                 'STJ': 'STORJ',
+                'TSD': 'TUSD',
                 'YYW': 'YOYOW',
+                'UDC': 'USDC',
                 'UST': 'USDT',
                 'UTN': 'UTNP',
+                'XCH': 'XCHF',
             },
             'exceptions': {
                 'exact': {
@@ -10058,7 +9946,7 @@ module.exports = class bitfinex extends Exchange {
             let symbol = base + '/' + quote;
             let precision = {
                 'price': market['price_precision'],
-                'amount': market['price_precision'],
+                'amount': undefined,
             };
             let limits = {
                 'amount': {
@@ -10284,7 +10172,7 @@ module.exports = class bitfinex extends Exchange {
         const order = {
             'symbol': this.marketId (symbol),
             'side': side,
-            'amount': this.amountToPrecision (symbol, amount),
+            'amount': this.numberToString (amount),
             'type': this.safeString (this.options['orderTypes'], type, type),
             'ocoorder': false,
             'buy_price_oco': 0,
@@ -11819,8 +11707,8 @@ module.exports = class bitforex extends Exchange {
                 'trading': {
                     'tierBased': false,
                     'percentage': true,
-                    'maker': 0.0,
-                    'taker': 0.05 / 100,
+                    'maker': 0.1 / 100,
+                    'taker': 0.1 / 100,
                 },
                 'funding': {
                     'tierBased': false,
@@ -13682,6 +13570,9 @@ module.exports = class bitmex extends Exchange {
                     'Access Denied': PermissionDenied,
                     'Duplicate clOrdID': InvalidOrder,
                     'Signature not valid': AuthenticationError,
+                    'orderQty is invalid': InvalidOrder,
+                    'Invalid price': InvalidOrder,
+                    'Invalid stopPx for ordType': InvalidOrder,
                 },
                 'broad': {
                     'overloaded': ExchangeNotAvailable,
@@ -14522,9 +14413,17 @@ module.exports = class bitmex extends Exchange {
 
     sign (path, api = 'public', method = 'GET', params = {}, headers = undefined, body = undefined) {
         let query = '/api/' + this.version + '/' + path;
-        if (method !== 'PUT')
-            if (Object.keys (params).length)
+        if (method === 'GET') {
+            if (Object.keys (params).length) {
                 query += '?' + this.urlencode (params);
+            }
+        } else {
+            const format = this.safeString (params, '_format');
+            if (format !== undefined) {
+                query += '?' + this.urlencode ({ '_format': format });
+                params = this.omit (params, '_format');
+            }
+        }
         let url = this.urls['api'] + query;
         if (api === 'private') {
             this.checkRequiredCredentials ();
@@ -14538,7 +14437,7 @@ module.exports = class bitmex extends Exchange {
             expires = expires.toString ();
             auth += expires;
             headers['api-expires'] = expires;
-            if (method === 'POST' || method === 'PUT') {
+            if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
                 if (Object.keys (params).length) {
                     body = this.json (params);
                     auth += body;
@@ -27511,7 +27410,7 @@ module.exports = class coinex extends Exchange {
             'change': undefined,
             'percentage': undefined,
             'average': undefined,
-            'baseVolume': this.safeFloat (ticker, 'volume'),
+            'baseVolume': this.safeFloat2 (ticker, 'vol', 'volume'),
             'quoteVolume': undefined,
             'info': ticker,
         };
@@ -30911,6 +30810,9 @@ module.exports = class coinone extends Exchange {
                 'ZIL/KRW': { 'id': 'zil', 'symbol': 'ZIL/KRW', 'base': 'ZIL', 'quote': 'KRW', 'baseId': 'zil', 'quoteId': 'krw' },
                 'KNC/KRW': { 'id': 'knc', 'symbol': 'KNC/KRW', 'base': 'KNC', 'quote': 'KRW', 'baseId': 'knc', 'quoteId': 'krw' },
                 'ZRX/KRW': { 'id': 'zrx', 'symbol': 'ZRX/KRW', 'base': 'ZRX', 'quote': 'KRW', 'baseId': 'zrx', 'quoteId': 'krw' },
+                'LUNA/KRW': { 'id': 'luna', 'symbol': 'LUNA/KRW', 'base': 'LUNA', 'quote': 'KRW', 'baseId': 'luna', 'quoteId': 'krw' },
+                'ATOM/KRW': { 'id': 'atom', 'symbol': 'ATOM/KRW', 'base': 'ATOM', 'quote': 'KRW', 'baseId': 'atom', 'quoteId': 'krw' },
+                'VNT/KRW': { 'id': 'vnt', 'symbol': 'vnt/KRW', 'base': 'VNT', 'quote': 'KRW', 'baseId': 'vnt', 'quoteId': 'krw' },
             },
             'fees': {
                 'trading': {
@@ -34538,8 +34440,8 @@ module.exports = class crex24 extends Exchange {
             code = currency['code'];
         }
         let type = this.safeString (transaction, 'type');
-        let timestamp = this.parse8601 (transaction, 'createdAt');
-        let updated = this.parse8601 (transaction, 'processedAt');
+        let timestamp = this.parse8601 (this.safeString (transaction, 'createdAt'));
+        let updated = this.parse8601 (this.safeString (transaction, 'processedAt'));
         let status = this.parseTransactionStatus (this.safeString (transaction, 'status'));
         let amount = this.safeFloat (transaction, 'amount');
         const feeCost = this.safeFloat (transaction, 'fee');
@@ -35582,6 +35484,7 @@ module.exports = class cryptopia extends Exchange {
     }
 
     async fetchTransactionsByType (type, code = undefined, since = undefined, limit = undefined, params = {}) {
+        await this.loadMarkets ();
         let request = {
             'type': (type === 'deposit') ? 'Deposit' : 'Withdraw',
         };
@@ -39341,17 +39244,17 @@ module.exports = class fcoin extends Exchange {
     async fetchOrderBook (symbol = undefined, limit = undefined, params = {}) {
         await this.loadMarkets ();
         if (limit !== undefined) {
-            if ((limit === 20) || (limit === 100)) {
+            if ((limit === 20) || (limit === 150)) {
                 limit = 'L' + limit.toString ();
             } else {
-                throw new ExchangeError (this.id + ' fetchOrderBook supports limit of 20, 100 or no limit. Other values are not accepted');
+                throw new ExchangeError (this.id + ' fetchOrderBook supports limit of 20 or 150. Other values are not accepted');
             }
         } else {
-            limit = 'full';
+            limit = 'L20';
         }
         let request = this.extend ({
             'symbol': this.marketId (symbol),
-            'level': limit, // L20, L100, full
+            'level': limit, // L20, L150
         }, params);
         let response = await this.marketGetDepthLevelSymbol (request);
         let orderbook = response['data'];
@@ -40449,7 +40352,7 @@ module.exports = class gateio extends Exchange {
                 '5m': '300',
                 '10m': '600',
                 '15m': '900',
-                '30m': '1200',
+                '30m': '1800',
                 '1h': '3600',
                 '2h': '7200',
                 '4h': '14400',
@@ -40738,8 +40641,8 @@ module.exports = class gateio extends Exchange {
             'change': change,
             'percentage': percentage,
             'average': average,
-            'baseVolume': this.safeFloat (ticker, 'quoteVolume'),
-            'quoteVolume': this.safeFloat (ticker, 'baseVolume'),
+            'baseVolume': this.safeFloat (ticker, 'baseVolume'),
+            'quoteVolume': this.safeFloat (ticker, 'quoteVolume'),
             'info': ticker,
         };
     }
@@ -41091,7 +40994,7 @@ module.exports = class gateio extends Exchange {
         if (since !== undefined) {
             request['start'] = since;
         }
-        const response = this.privatePostDepositswithdrawals (this.extend (request, params));
+        const response = this.privatePostDepositsWithdrawals (this.extend (request, params));
         let transactions = undefined;
         if (type === undefined) {
             const deposits = this.safeValue (response, 'deposits', []);
@@ -41374,19 +41277,21 @@ module.exports = class gdax extends Exchange {
     }
 
     async fetchMarkets (params = {}) {
-        let markets = await this.publicGetProducts ();
-        let result = [];
-        for (let p = 0; p < markets.length; p++) {
-            let market = markets[p];
-            let id = market['id'];
-            let base = market['base_currency'];
-            let quote = market['quote_currency'];
-            let symbol = base + '/' + quote;
-            let priceLimits = {
+        const response = await this.publicGetProducts (params);
+        const result = [];
+        for (let i = 0; i < response.length; i++) {
+            const market = response[i];
+            const id = this.safeString (market, 'id');
+            const baseId = this.safeString (market, 'base_currency');
+            const quoteId = this.safeString (market, 'quote_currency');
+            const base = this.commonCurrencyCode (baseId);
+            const quote = this.commonCurrencyCode (quoteId);
+            const symbol = base + '/' + quote;
+            const priceLimits = {
                 'min': this.safeFloat (market, 'quote_increment'),
                 'max': undefined,
             };
-            let precision = {
+            const precision = {
                 'amount': 8,
                 'price': this.precisionFromString (this.safeString (market, 'quote_increment')),
             };
@@ -41398,6 +41303,8 @@ module.exports = class gdax extends Exchange {
             result.push (this.extend (this.fees['trading'], {
                 'id': id,
                 'symbol': symbol,
+                'baseId': baseId,
+                'quoteId': quoteId,
                 'base': base,
                 'quote': quote,
                 'precision': precision,
@@ -41903,6 +41810,7 @@ module.exports = class gdax extends Exchange {
         const amount = this.safeFloat (transaction, 'amount');
         let type = this.safeString (transaction, 'type');
         let address = this.safeString (details, 'crypto_address');
+        let tag = this.safeString (details, 'destination_tag');
         address = this.safeString (transaction, 'crypto_address', address);
         if (type === 'withdraw') {
             type = 'withdrawal';
@@ -41915,7 +41823,7 @@ module.exports = class gdax extends Exchange {
             'timestamp': timestamp,
             'datetime': this.iso8601 (timestamp),
             'address': address,
-            'tag': undefined,
+            'tag': tag,
             'type': type,
             'amount': amount,
             'currency': code,
@@ -41977,9 +41885,7 @@ module.exports = class gdax extends Exchange {
             'id': account['id'],
         }, params));
         let address = this.safeString (response, 'address');
-        // todo: figure this out
-        // let tag = this.safeString (response, 'addressTag');
-        let tag = undefined;
+        let tag = this.safeString (response, 'destination_tag');
         return {
             'currency': code,
             'address': this.checkAddress (address),
@@ -49314,8 +49220,23 @@ module.exports = class kraken extends Exchange {
             }
         }
         return {
-            'info': response,
             'id': id,
+            'info': response,
+            'timestamp': undefined,
+            'datetime': undefined,
+            'lastTradeTimestamp': undefined,
+            'symbol': symbol,
+            'type': type,
+            'side': side,
+            'price': price,
+            'amount': amount,
+            'cost': undefined,
+            'average': undefined,
+            'filled': undefined,
+            'remaining': undefined,
+            'status': undefined,
+            'fee': undefined,
+            'trades': undefined,
         };
     }
 
@@ -49914,7 +49835,7 @@ module.exports = class kucoin extends Exchange {
                 'fetchOHLCV': true,
             },
             'urls': {
-                'logo': 'https://user-images.githubusercontent.com/1294454/51909432-b0a72780-23dd-11e9-99ba-73d23c8d4eed.jpg',
+                'logo': 'https://user-images.githubusercontent.com/1294454/57369448-3cc3aa80-7196-11e9-883e-5ebeb35e4f57.jpg',
                 'referral': 'https://www.kucoin.com/ucenter/signup?rcode=E5wkqe',
                 'api': {
                     'public': 'https://openapi-v2.kucoin.com',
@@ -57533,7 +57454,7 @@ module.exports = class mercado extends Exchange {
         let market = this.market (symbol);
         let request = {
             'precision': this.timeframes[timeframe],
-            'coin': market.id.toLowerCase (),
+            'coin': market['id'].toLowerCase (),
         };
         if (limit !== undefined && since !== undefined) {
             request['from'] = parseInt (since / 1000);
@@ -65873,6 +65794,7 @@ module.exports = class tidebit extends Exchange {
                     'https://www.tidebit.com/documents/api/guide',
                     'https://www.tidebit.com/swagger/#/default',
                 ],
+                'referral': 'http://bit.ly/2IX0LrM',
             },
             'api': {
                 'public': {

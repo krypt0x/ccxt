@@ -261,6 +261,7 @@ module.exports = class bitfinex extends Exchange {
                 'DAD': 'DADI',
                 'DAT': 'DATA',
                 'DSH': 'DASH',
+                'GSD': 'GUSD',
                 'HOT': 'Hydro Protocol',
                 'IOS': 'IOST',
                 'IOT': 'IOTA',
@@ -276,9 +277,12 @@ module.exports = class bitfinex extends Exchange {
                 'SNG': 'SNGLS',
                 'SPK': 'SPANK',
                 'STJ': 'STORJ',
+                'TSD': 'TUSD',
                 'YYW': 'YOYOW',
+                'UDC': 'USDC',
                 'UST': 'USDT',
                 'UTN': 'UTNP',
+                'XCH': 'XCHF',
             },
             'exceptions': {
                 'exact': {
@@ -447,7 +451,7 @@ module.exports = class bitfinex extends Exchange {
             let symbol = base + '/' + quote;
             let precision = {
                 'price': market['price_precision'],
-                'amount': market['price_precision'],
+                'amount': undefined,
             };
             let limits = {
                 'amount': {
@@ -673,7 +677,7 @@ module.exports = class bitfinex extends Exchange {
         const order = {
             'symbol': this.marketId (symbol),
             'side': side,
-            'amount': this.amountToPrecision (symbol, amount),
+            'amount': this.numberToString (amount),
             'type': this.safeString (this.options['orderTypes'], type, type),
             'ocoorder': false,
             'buy_price_oco': 0,

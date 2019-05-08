@@ -261,6 +261,7 @@ class bitfinex extends Exchange {
                 'DAD' => 'DADI',
                 'DAT' => 'DATA',
                 'DSH' => 'DASH',
+                'GSD' => 'GUSD',
                 'HOT' => 'Hydro Protocol',
                 'IOS' => 'IOST',
                 'IOT' => 'IOTA',
@@ -276,9 +277,12 @@ class bitfinex extends Exchange {
                 'SNG' => 'SNGLS',
                 'SPK' => 'SPANK',
                 'STJ' => 'STORJ',
+                'TSD' => 'TUSD',
                 'YYW' => 'YOYOW',
+                'UDC' => 'USDC',
                 'UST' => 'USDT',
                 'UTN' => 'UTNP',
+                'XCH' => 'XCHF',
             ),
             'exceptions' => array (
                 'exact' => array (
@@ -447,7 +451,7 @@ class bitfinex extends Exchange {
             $symbol = $base . '/' . $quote;
             $precision = array (
                 'price' => $market['price_precision'],
-                'amount' => $market['price_precision'],
+                'amount' => null,
             );
             $limits = array (
                 'amount' => array (
@@ -673,7 +677,7 @@ class bitfinex extends Exchange {
         $order = array (
             'symbol' => $this->market_id($symbol),
             'side' => $side,
-            'amount' => $this->amount_to_precision($symbol, $amount),
+            'amount' => $this->number_to_string($amount),
             'type' => $this->safe_string($this->options['orderTypes'], $type, $type),
             'ocoorder' => false,
             'buy_price_oco' => 0,
